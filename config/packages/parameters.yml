@@ -1,5 +1,5 @@
 
 parameters:
-  mailer_user: 'julienrajerison5@gmail.com'
-  mailer_pass: 'techzarajulien2901'
+  mailer_user: 'your_mail_acount'
+  mailer_pass: 'your_mail_pass'
   brochures_directory: '%kernel.project_dir%/public/upload'
