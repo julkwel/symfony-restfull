@@ -113,8 +113,9 @@ class UserController extends Controller
         }
 
 
+        $_boo_pass = $_boo_user->setPlainPassword($_boo_user_pass ? $_boo_user_pass : $_boo_user->getPlainPassword());
         $_boo_user->setUsername($_boo_user_name ? $_boo_user_name : $_boo_user->getUsername());
-        $_boo_user->setPlainPassword($_boo_user_pass ? $_boo_user_pass : $_boo_user->getPlainPassword());
+        $_boo_user->setPassword($_boo_pass);
         $_boo_user->setEmail($_boo_user_mail ? $_boo_user_mail : $_boo_user->getEmail());
         $_boo_user->setPrenom($_boo_prenom);
         $_boo_user->setNom($_boo_nom);
