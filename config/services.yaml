@@ -29,5 +29,5 @@ services:
     # please note that last definitions always *replace* previous ones
     boo.crud.service:
         class: App\Service\CrudService
-        arguments: [ "@doctrine.orm.entity_manager","@service_container",'%kernel.root_dir%' ]
+        arguments: [ "@doctrine.orm.entity_manager","@service_container",'%brochures_directory%' ]
         public: true

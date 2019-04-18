@@ -27,21 +27,27 @@ class User extends BaseUser implements UserInterface
 
     /**
      * @var
-     * @ORM\Column(name="_nom",type="string",length=100)
+     * @ORM\Column(name="_nom",type="string",length=100,nullable=true)
      */
     private $_nom;
 
     /**
      * @var
-     * @ORM\Column(name="_prenom",type="string",length=100)
+     * @ORM\Column(name="_prenom",type="string",length=100,nullable=true)
      */
     private $_prenom;
 
     /**
      * @var
-     * @ORM\Column(name="_adresse",type="string",length=100)
+     * @ORM\Column(name="_adresse",type="string",length=100,nullable=true)
      */
     private $_adresse;
+
+    /**
+     * @var
+     * @ORM\Column(name="_img_url",type="string",length=200,nullable=true)
+     */
+    private $_imgUrl;
 
     /**
      * @return mixed
@@ -106,4 +112,22 @@ class User extends BaseUser implements UserInterface
     {
         $this->id = $id;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getImgUrl()
+    {
+        return $this->_imgUrl;
+    }
+
+    /**
+     * @param mixed $imgUrl
+     */
+    public function setImgUrl($imgUrl): void
+    {
+        $this->_imgUrl = $imgUrl;
+    }
+
+
 }
