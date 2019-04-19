@@ -12,7 +12,6 @@ use FOS\UserBundle\Model\UserInterface;
  */
 class User extends BaseUser implements UserInterface
 {
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -128,6 +127,4 @@ class User extends BaseUser implements UserInterface
     {
         $this->_imgUrl = $imgUrl;
     }
-
-
 }

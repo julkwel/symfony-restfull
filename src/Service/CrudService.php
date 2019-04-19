@@ -3,16 +3,13 @@
  * Created by PhpStorm.
  * User: julkwel
  * Date: 4/18/19
- * Time: 1:25 PM
+ * Time: 1:25 PM.
  */
 
 namespace App\Service;
 
-
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\Container;
-use Symfony\Component\HttpFoundation\JsonResponse;
 
 class CrudService
 {
@@ -24,7 +21,7 @@ class CrudService
      * CrudService constructor.
      *
      * @param EntityManager $entityManager
-     * @param Container $container
+     * @param Container     $container
      * @param $_boo_root_dir
      */
     public function __construct(EntityManager $entityManager, Container $container, $_boo_root_dir)
@@ -36,6 +33,7 @@ class CrudService
 
     /**
      * @param $_boo_entity
+     *
      * @return array|object[]
      */
     public function findAll($_boo_entity)
@@ -46,21 +44,23 @@ class CrudService
     /**
      * @param $_boo_entity
      * @param $_boo_id
-     * @return null|object
+     *
+     * @return object|null
      */
-    public function findById($_boo_entity,$_boo_id)
+    public function findById($_boo_entity, $_boo_id)
     {
         return $this->_boo__entity_manager->getRepository($_boo_entity)->find($_boo_id);
     }
 
     /**
-     * Ajout crud service check si update ou noveau
+     * Ajout crud service check si update ou noveau.
      *
      * @param $_boo_entity
      * @param $_boo_action
-     *
      * @param $_boo_image
+     *
      * @return mixed $_boo_entity
+     *
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
@@ -76,7 +76,9 @@ class CrudService
 
     /**
      * @param $_boo_entity
+     *
      * @return bool
+     *
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */

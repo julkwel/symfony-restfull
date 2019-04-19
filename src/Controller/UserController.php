@@ -1,20 +1,19 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: julkwel
- * Date: 4/18/19
- * Time: 1:23 PM
+ * @Author Julien Rajerison <julienrajerison5@gmail.com>
+ *
+ * @Description Symfony rest api
+ *
+ * @Content UserController
  */
 
 namespace App\Controller;
-
 
 use App\Entity\User;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,6 +22,7 @@ class UserController extends Controller
 {
     /**
      * @param $_data
+     *
      * @return Response
      */
     public function response($_data)
@@ -30,11 +30,12 @@ class UserController extends Controller
         $_list = new Response($_data);
         $_list->headers->set('Content-Type', 'application/json');
         $_list->headers->set('Access-Control-Allow-Origin', '*');
+
         return $_list;
     }
 
     /**
-     * Get crud service
+     * Get crud service.
      *
      * @return \App\Service\CrudService|object
      */
@@ -54,15 +55,18 @@ class UserController extends Controller
     /**
      * @Route("api/user/list",name="user_list",methods={"GET","POST"})
      * @Route("api/user/list/{_boo_user}",name="user_list_id",methods={"GET","POST"})
+     *
      * @param User $_boo_user
+     *
      * @return Response
      */
     public function indexAction($_boo_user = null)
     {
-        if ($_boo_user){
-            $_boo_user_list = $this->getCrudService()->findById(User::class,$_boo_user);
-        } else
+        if ($_boo_user) {
+            $_boo_user_list = $this->getCrudService()->findById(User::class, $_boo_user);
+        } else {
             $_boo_user_list = $this->getCrudService()->findAll(User::class);
+        }
 
         $_boo_user_list = $this->getSerializer()->serialize($_boo_user_list, 'json');
 
@@ -72,14 +76,16 @@ class UserController extends Controller
     /**
      * @Route("api/user/new",name="user_new",methods={"GET","POST"})
      * @Route("api/user/edit/{_boo_user}",name="user_edit",methods={"GET","POST"})
-     * @param User $_boo_user
+     *
+     * @param User    $_boo_user
      * @param Request $_boo_request
+     *
      * @return Response
+     *
      * @throws \Exception
      */
     public function newAction(Request $_boo_request, $_boo_user = null)
     {
-
         $_boo_user_name = $_boo_request->request->get('_username');
         $_boo_user_pass = $_boo_request->request->get('_password');
         $_boo_user_mail = $_boo_request->request->get('_email');
@@ -91,27 +97,27 @@ class UserController extends Controller
         $_action = '';
         $_message = '';
 
-        $fileName = $_boo_image->getClientOriginalName();
-
-        try {
-            $_boo_image->move(
-                $this->getParameter('brochures_directory'),
-                $fileName
-            );
-        } catch (FileException $e) {
-            $_message = $e->getMessage();
+        $fileName = $_boo_image ? $_boo_image->getClientOriginalName() : '';
+        if ($fileName) {
+            try {
+                $_boo_image->move(
+                    $this->getParameter('brochures_directory'),
+                    $fileName
+                );
+            } catch (FileException $e) {
+                $_message = $e->getMessage();
+            }
         }
 
         if ($_boo_user) {
             $_boo_user = $this->getCrudService()->findById(User::class, $_boo_user);
             $_action = 'update';
             $_message = 'user update successful';
-        } elseif ($_boo_user === null) {
+        } elseif (null === $_boo_user) {
             $_boo_user = new User();
             $_action = 'new';
             $_message = 'user create successful';
         }
-
 
         $_boo_pass = $_boo_user->setPlainPassword($_boo_user_pass ? $_boo_user_pass : $_boo_user->getPlainPassword());
         $_boo_user->setUsername($_boo_user_name ? $_boo_user_name : $_boo_user->getUsername());
@@ -123,7 +129,15 @@ class UserController extends Controller
         $_boo_user->setEnabled(true);
         $_boo_user->setImgUrl($fileName);
 
-        $this->getCrudService()->saveEntity($_boo_user, $_action, $_boo_image);
+        try {
+            $this->getCrudService()->saveEntity($_boo_user, $_action, $_boo_image);
+        } catch (\Exception $exception) {
+            if ('dev' === $this->get('kernel')->getEnvironment()) {
+                $_message = $exception->getMessage();
+            } else {
+                $_message = 'Une erreur se produite';
+            }
+        }
         $_message = $this->getSerializer()->serialize($_message, 'json');
 
         return $this->response($_message);
@@ -131,7 +145,9 @@ class UserController extends Controller
 
     /**
      * @param User $_boo_user
-     * @Route("api/user/delete/{_boo_user}",name="user_dlete",methods={"GET","POST"})
+     *
+     * @Route("api/user/delete/{_boo_user}",name="user_delete",methods={"GET","POST"})
+     *
      * @return Response
      */
     public function deleteAction($_boo_user)
@@ -140,6 +156,7 @@ class UserController extends Controller
         if (null === $_boo_user) {
             $_message = 'Aucun utilisateur correspond';
             $_message = $this->getSerializer()->serialize($_message, 'json');
+
             return $this->response($_message);
         }
 
@@ -148,14 +165,14 @@ class UserController extends Controller
             $_message = 'suppression avec success';
 
             $_message = $this->getSerializer()->serialize($_message, 'json');
-            return $this->response($_message);
 
+            return $this->response($_message);
         } catch (OptimisticLockException $e) {
         } catch (ORMException $e) {
             $_message = 'suppression avec success';
             $_message = $this->getSerializer()->serialize($_message, 'json');
+
             return $this->response($_message);
         }
-
     }
 }
