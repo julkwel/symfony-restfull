@@ -1,4 +1,11 @@
 <?php
+/**
+ * @Author Julien Rajerison <julienrajerison5@gmail.com>
+ *
+ * @Description Symfony rest api
+ *
+ * @Content User Entity
+ */
 
 namespace App\Entity;
 

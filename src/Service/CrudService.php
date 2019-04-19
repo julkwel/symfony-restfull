@@ -1,9 +1,10 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: julkwel
- * Date: 4/18/19
- * Time: 1:25 PM.
+ * @Author Julien Rajerison <julienrajerison5@gmail.com>
+ *
+ * @Description Symfony rest api
+ *
+ * @Content CrudService
  */
 
 namespace App\Service;
