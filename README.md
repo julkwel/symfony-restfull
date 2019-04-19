@@ -1,6 +1,6 @@
 # symfony-restfull
 
-Full Rest API with symfony 4.2 + JWT + FOSUser et FOSRest
+Full Rest API with symfony 4.2 + JWT + FOSUser and FOSRest
 
 **Installation**
 
